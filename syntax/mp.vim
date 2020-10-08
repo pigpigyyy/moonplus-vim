@@ -39,6 +39,8 @@ syn match moonKeyword /\%(import\s*['"][^'"]\+['"]\s*\)\@<=as/
 \                       display
 syn match moonKeyword /\%(macro\s\+\)\@<=\%(expr\|block\|lua\)/
 \                       display
+syn match moonKeyword /\%(export\)\@<=\s\+default/
+\                       display
 syn match moonKeyword /\<\I\i\+\>\%(\s\+\%(\I\i*\|,\|\s\+\)\+\s*=\)\@=/
 \                       display
 hi def link moonKeyword Keyword
