@@ -18,7 +18,7 @@ set background=dark
 hi clear
 syntax reset
 
-let g:colors_name = "moon"
+let g:colors_name = "mp"
 
 if has("gui_running")
 	fun <SID>X(group, fg, bg, attr)

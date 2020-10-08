@@ -4,11 +4,11 @@
 " URL:         http://github.com/leafo/moonscript-vim
 " License:     WTFPL
 
-autocmd BufNewFile,BufRead *.moon set filetype=moon
+autocmd BufNewFile,BufRead *.mp set filetype=mp
 
 function! s:DetectMoon()
-    if getline(1) =~ '^#!.*\<moon\>'
-        set filetype=moon
+    if getline(1) =~ '^#!.*\<mp\>'
+        set filetype=mp
     endif
 endfunction
 

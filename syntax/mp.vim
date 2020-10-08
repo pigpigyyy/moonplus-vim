@@ -5,7 +5,7 @@
 " License:     WTFPL
 
 " Bail if our syntax is already loaded.
-if exists('b:current_syntax') && b:current_syntax == 'moon'
+if exists('b:current_syntax') && b:current_syntax == 'mp'
   finish
 endif
 
@@ -33,7 +33,13 @@ hi def link moonConditional Conditional
 " syn match moonException /\<\%(try\|catch\|finally\)\>/ display
 " hi def link moonException Exception
 
-syn match moonKeyword /\<\%(export\|local\|import\|from\|with\|in\|and\|or\|not\|class\|extends\|super\|using\|do\)\>/
+syn match moonKeyword /\<\%(export\|local\|global\|import\|from\|with\|in\|and\|or\|not\|class\|extends\|super\|using\|do\|macro\)\>/
+\                       display
+syn match moonKeyword /\%(import\s*['"][^'"]\+['"]\s*\)\@<=as/
+\                       display
+syn match moonKeyword /\%(macro\s\+\)\@<=\%(expr\|block\|lua\)/
+\                       display
+syn match moonKeyword /\<\I\i\+\>\%(\s\+\%(\I\i*\|,\|\s\+\)\+\s*=\)\@=/
 \                       display
 hi def link moonKeyword Keyword
 
@@ -147,7 +153,7 @@ syn match moonLuaFunc /debug\.setmetatable/
 hi def link moonLuaFunc Identifier
 
 " The first case matches symbol operators only if they have an operand before.
-syn match moonExtendedOp /\%(\S\s*\)\@<=[+\-*/%&|\^=!<>?#]\+\|\.\|\\/
+syn match moonExtendedOp /\%(\S\s*\)\@<=[+\-*/%&|\^=!<>?#]\+\|\.\|\\\||>\|<=\|<\-/
 \                          display
 hi def link moonExtendedOp moonOperator
 hi def link moonOperator Operator
@@ -170,6 +176,8 @@ hi def link moonGlobal Type
 syn match moonSpecialVar /\<\%(self\)\>/ display
 " An @-variable
 syn match moonSpecialVar /@\%(\I\i*\)\?/ display
+" An $-macro name
+syn match moonSpecialVar /$\%(\I\i*\)\?/ display
 hi def link moonSpecialVar Structure
 
 " A class-like name that starts with a capital letter
@@ -179,6 +187,7 @@ hi def link moonObject Structure
 " A constant-like name in SCREAMING_CAPS
 syn match moonConstant /\<\u[A-Z0-9_]\+\>/ display
 hi def link moonConstant Constant
+
 
 " A variable name
 syn cluster moonIdentifier contains=moonSpecialVar,moonObject,
@@ -253,9 +262,9 @@ syn match moonComment "\%^#!.*"
 syn match moonComment /--.*/ contains=@Spell,moonTodo
 hi def link moonComment Comment
 
-" syn region moonBlockComment start=/####\@!/ end=/###/
-" \                             contains=@Spell,moonTodo
-" hi def link moonBlockComment moonComment
+syn region moonBlockComment start=/--\[\[/ end=/\]\]/
+\                             contains=@Spell,moonTodo
+hi def link moonBlockComment moonComment
 
 syn region moonInterp matchgroup=moonInterpDelim start=/#{/ end=/}/ contained
 \                       contains=@moonAll
@@ -288,6 +297,14 @@ endif
 syn match moonDotAccess /\.\@<!\.\s*\I\i*/he=s+1 contains=@moonIdentifier
 hi def link moonDotAccess moonExtendedOp
 
+" Ignore reserved words in slash accesses.
+syn match moonSlashAccess /\\\@<!\\\s*\I\i*/he=s+1 contains=@moonIdentifier
+hi def link moonSlashAccess moonExtendedOp
+
+" Ignore reserved words in macro definition.
+syn match moonMacroDef /\%(macro\s\+\%(expr\|block\|lua\)\s\+\)\@<=\s*\I\i*/he=s contains=@moonIdentifier
+hi def link moonMacroDef moonExtendedOp
+
 " This is required for interpolations to work.
 syn region moonCurlies matchgroup=moonCurly start=/{/ end=/}/
 \                        contains=@moonAll contained
@@ -300,7 +317,7 @@ syn region moonCurlies matchgroup=moonCurly start=/{/ end=/}/
 
 " This is used instead of TOP to keep things moon-specific for good
 " embedding. `contained` groups aren't included.
-syn cluster moonAll contains=moonStatement,moonRepeat,moonConditional,
+syn cluster mpAll contains=moonStatement,moonRepeat,moonConditional,
 \                              moonKeyword,moonOperator,moonFunction,
 \                              moonExtendedOp,moonSpecialOp,moonBoolean,
 \                              moonGlobal,moonSpecialVar,moonObject,
@@ -313,5 +330,5 @@ syn cluster moonAll contains=moonStatement,moonRepeat,moonConditional,
 \                              moonCurlies
 
 if !exists('b:current_syntax')
-  let b:current_syntax = 'moon'
+  let b:current_syntax = 'mp'
 endif
