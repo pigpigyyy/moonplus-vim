@@ -1,6 +1,6 @@
 # moonplus-vim
 
-Adds syntax highlighting and indent support for MoonScript+ in vim.
+Adds syntax highlighting and indent support for MoonScript+ syntax file with extension '.mp' in vim.
 
 ## Install
 
