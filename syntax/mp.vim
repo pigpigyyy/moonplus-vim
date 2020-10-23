@@ -304,7 +304,7 @@ syn match moonSlashAccess /\\\@<!\\\s*\I\i*/he=s+1 contains=@moonIdentifier
 hi def link moonSlashAccess moonExtendedOp
 
 " Ignore reserved words in macro definition.
-syn match moonMacroDef /\%(macro\s\+\%(expr\|block\|lua\)\s\+\)\@<=\s*\I\i*/he=s contains=@moonIdentifier
+syn match moonMacroDef /\%(macro\s\+\%(expr\|block\|lua\|text\)\s\+\)\@<=\s*\I\i*/he=s contains=@moonIdentifier
 hi def link moonMacroDef moonExtendedOp
 
 " This is required for interpolations to work.
