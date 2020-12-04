@@ -184,7 +184,7 @@ hi def link moonSpecialVar Structure
 
 " A class-like name that starts with a capital letter
 syn match moonObject /\<\u\w*\>/ display
-hi def link moonObject Structure
+hi def link moonObject Type
 
 " A constant-like name in SCREAMING_CAPS
 syn match moonConstant /\<\u[A-Z0-9_]\+\>/ display
@@ -269,7 +269,7 @@ syn region moonBlockComment start=/--\[\[/ end=/\]\]/
 hi def link moonBlockComment moonComment
 
 syn region moonInterp matchgroup=moonInterpDelim start=/#{/ end=/}/ contained
-\                       contains=@moonAll
+\                       contains=@mpAll
 hi def link moonInterpDelim PreProc
 
 " A string escape sequence
@@ -309,7 +309,7 @@ hi def link moonMacroDef moonExtendedOp
 
 " This is required for interpolations to work.
 syn region moonCurlies matchgroup=moonCurly start=/{/ end=/}/
-\                        contains=@moonAll contained
+\                        contains=@mpAll contained
 
 " " These are highlighted the same as commas since they tend to go together.
 " hi def link moonBlock moonSpecialOp
