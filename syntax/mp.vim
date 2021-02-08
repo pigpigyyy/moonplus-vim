@@ -37,8 +37,6 @@ syn match moonKeyword /\<\%(export\|local\|global\|import\|from\|with\|in\|and\|
 \                       display
 syn match moonKeyword /\%(import\s*['"][^'"]\+['"]\s*\)\@<=as/
 \                       display
-syn match moonKeyword /\%(macro\s\+\)\@<=\%(expr\|block\|lua\|text\)/
-\                       display
 syn match moonKeyword /\%(export\)\@<=\s\+default/
 \                       display
 syn match moonKeyword /\<\I\i\+\>\%(\s\+\%(\I\i*\|,\|\s\+\)\+\s*=\)\@=/
@@ -171,8 +169,8 @@ hi def link moonSpecialOp SpecialChar
 syn match moonBoolean /\<\%(true\|false\)\>/ display
 hi def link moonBoolean Boolean
 
-syn match moonGlobal /\<\%(nil\)\>/ display
-hi def link moonGlobal Type
+syn match moonNil /\<\%(nil\)\>/ display
+hi def link moonNil Constant
 
 " A special variable
 syn match moonSpecialVar /\<\%(self\)\>/ display
@@ -304,7 +302,7 @@ syn match moonSlashAccess /\\\@<!\\\s*\I\i*/he=s+1 contains=@moonIdentifier
 hi def link moonSlashAccess moonExtendedOp
 
 " Ignore reserved words in macro definition.
-syn match moonMacroDef /\%(macro\s\+\%(expr\|block\|lua\|text\)\s\+\)\@<=\s*\I\i*/he=s contains=@moonIdentifier
+syn match moonMacroDef /\%(macro\s\+\)\@<=\s*\I\i*/he=s contains=@moonIdentifier
 hi def link moonMacroDef moonExtendedOp
 
 " This is required for interpolations to work.
@@ -322,7 +320,7 @@ syn region moonCurlies matchgroup=moonCurly start=/{/ end=/}/
 syn cluster mpAll contains=moonStatement,moonRepeat,moonConditional,
 \                              moonKeyword,moonOperator,moonFunction,
 \                              moonExtendedOp,moonSpecialOp,moonBoolean,
-\                              moonGlobal,moonSpecialVar,moonObject,
+\                              moonNil,moonSpecialVar,moonObject,
 \                              moonConstant,moonString,moonNumber,
 \                              moonFloat,moonReservedError,moonObjAssign,
 \                              moonObjStringAssign,moonObjNumberAssign,
